@@ -93,7 +93,7 @@ Qubit properties come from periodic benchmarking jobs. `backend.qubit_properties
 
 **T2, dephasing time.** The off-diagonal coherence of a superposition decays as exp(−t/T2). IBM reports T2 from a Hahn echo sequence, which cancels slow static detuning, so it includes relaxation plus pure dephasing.
 
-```latex
+```math
 p_1(t)=p_1(0)\,e^{-t/T_1},\qquad |\rho_{01}(t)|=|\rho_{01}(0)|\,e^{-t/T_2},\qquad \frac{1}{T_2}=\frac{1}{2T_1}+\frac{1}{T_\varphi}\;\Rightarrow\;T_2\le 2T_1
 ```
 
@@ -101,7 +101,7 @@ The bound T2 ≤ 2·T1 holds because relaxation alone already destroys coherence
 
 **Readout (SPAM) quantities.** Prepare |0⟩ or |1⟩, measure many times, and tabulate the assignment matrix. The two off-diagonal entries are prob\_meas1\_prep0 = P(1|0) and prob\_meas0\_prep1 = P(0|1); readout\_error is their mean.
 
-```latex
+```math
 A=\begin{pmatrix}P(0|0)&P(0|1)\\P(1|0)&P(1|1)\end{pmatrix},\qquad \varepsilon_{\mathrm{ro}}=\tfrac12\big[P(0|1)+P(1|0)\big]
 ```
 
@@ -121,7 +121,7 @@ backend.target["measure"][(0,)]       # duration=1.66e-06 s, error≈0.0684
 
 Gate errors come from randomized benchmarking (RB). Random Clifford sequences of length m return the initial state with probability F(m) = A·p^m + B; the fitted decay p gives the average error per Clifford, with d = 2^n the Hilbert-space dimension.
 
-```latex
+```math
 F(m)=A\,p^{m}+B,\qquad r=\frac{d-1}{d}\,(1-p)\quad(\text{average gate error}),\qquad d=2^{n}
 ```
 
@@ -137,7 +137,7 @@ F(m)=A\,p^{m}+B,\qquad r=\frac{d-1}{d}\,(1-p)\quad(\text{average gate error}),\q
 
 **EPLG derivation.** The layer fidelity LF\_N is the process fidelity of one layer of two-qubit gates covering an N-qubit chain, which contains N−1 gates. Assuming errors multiply, the per-gate process fidelity is LF^(1/(N−1)). Process infidelity converts to average-gate infidelity by the factor d/(d+1) with d = 4 for two qubits, i.e. 4/5.
 
-```latex
+```math
 \mathrm{EPLG}_{N}=\frac{4}{5}\Big(1-\mathrm{LF}_{N}^{\,1/(N-1)}\Big)
 ```
 
@@ -183,7 +183,7 @@ A qubit state is a unit vector in C², defined up to a global phase, because a p
 
 X, Y and Z are Hermitian, traceless, have eigenvalues +1 and −1, and satisfy:
 
-```latex
+```math
 X^2=Y^2=Z^2=I,\qquad XY=iZ,\;\;YZ=iX,\;\;ZX=iY,\qquad XY=-YX\;(\text{any two distinct Paulis anticommute})
 ```
 
@@ -193,13 +193,13 @@ The property P² = I is the only fact needed to exponentiate them. It holds for 
 
 For any matrix P with P² = I, the powers alternate: P^(2m) = I and P^(2m+1) = P. Split the exponential series into even and odd terms:
 
-```latex
+```math
 e^{-i\alpha P}=\sum_{k\ge0}\frac{(-i\alpha)^k}{k!}P^k=\underbrace{\sum_{m\ge0}\frac{(-1)^m\alpha^{2m}}{(2m)!}}_{\cos\alpha}\,I\;-\;i\,\underbrace{\sum_{m\ge0}\frac{(-1)^m\alpha^{2m+1}}{(2m+1)!}}_{\sin\alpha}\,P
 ```
 
 Setting α = θ/2 and naming the rotation by its generator gives R\_P(θ) = exp(−iθP/2) = cos(θ/2)·I − i·sin(θ/2)·P. The three single-qubit cases are:
 
-```latex
+```math
 R_X(\theta)=\begin{pmatrix}\cos\frac\theta2&-i\sin\frac\theta2\\-i\sin\frac\theta2&\cos\frac\theta2\end{pmatrix},\quad
 R_Y(\theta)=\begin{pmatrix}\cos\frac\theta2&-\sin\frac\theta2\\\sin\frac\theta2&\cos\frac\theta2\end{pmatrix},\quad
 R_Z(\theta)=\begin{pmatrix}e^{-i\theta/2}&0\\0&e^{i\theta/2}\end{pmatrix}
@@ -209,7 +209,7 @@ R_Z(\theta)=\begin{pmatrix}e^{-i\theta/2}&0\\0&e^{i\theta/2}\end{pmatrix}
 
 Z⊗Z is diagonal in the computational basis with eigenvalue (−1)^(parity): +1 on 00 and 11, −1 on 01 and 10. Applying the same identity gives a diagonal gate:
 
-```latex
+```math
 R_{ZZ}(\theta)=\cos\tfrac\theta2\,I-i\sin\tfrac\theta2\,Z\otimes Z=\mathrm{diag}\big(e^{-i\theta/2},\,e^{+i\theta/2},\,e^{+i\theta/2},\,e^{-i\theta/2}\big)
 ```
 
@@ -223,13 +223,13 @@ Reading the diagonal: RZZ(θ) gives states of even parity the phase e^{−iθ/2}
 
 **Conjugation.** For any unitary U, U·f(P)·U† = f(U P U†), so U·R\_P(θ)·U† = exp(−iθ(UPU†)/2). If U P U† = −P the sign of the angle flips; if U P U† = P nothing changes.
 
-```latex
+```math
 R_P(\theta+2\pi)=-R_P(\theta),\qquad R_P(\pi)=-iP,\qquad XZX=-Z\Rightarrow XR_Z(\theta)X=R_Z(-\theta),\qquad HXH=Z\Rightarrow HR_X(\theta)H=R_Z(\theta)
 ```
 
 **Native-gate relations.** SX is RX(π/2) up to a phase, X = RX(π) up to a phase (R\_X(π) = −iX), and the Hadamard is H = (X+Z)/√2.
 
-```latex
+```math
 \mathrm{SX}=\tfrac12\begin{pmatrix}1+i&1-i\\1-i&1+i\end{pmatrix}=e^{i\pi/4}R_X(\pi/2),\qquad \mathrm{CZ}=\mathrm{diag}(1,1,1,-1)
 ```
 
@@ -241,7 +241,7 @@ Every single-qubit gate is a rotation of the Bloch sphere, and the conventional 
 
 Write a pure state with a polar angle ϑ and an azimuth φ. Its Bloch vector has components equal to the expectation values of the Pauli matrices, and every point of the unit sphere is a state.
 
-```latex
+```math
 |\psi\rangle=\cos\tfrac{\vartheta}{2}|0\rangle+e^{i\varphi}\sin\tfrac{\vartheta}{2}|1\rangle\;\longleftrightarrow\;\vec r=(\sin\vartheta\cos\varphi,\;\sin\vartheta\sin\varphi,\;\cos\vartheta),\qquad r_k=\langle\psi|\sigma_k|\psi\rangle
 ```
 
@@ -249,7 +249,7 @@ Write a pure state with a polar angle ϑ and an azimuth φ. Its Bloch vector has
 
 A unitary U acts on the Bloch vector by conjugation: U (r·σ) U† = (𝓡r)·σ for a 3×3 rotation matrix 𝓡. For U = exp(−iθ n·σ/2) the two eigenstates of the generator n·σ (the points ±n on the sphere) only pick up phases e^{∓iθ/2}. Their relative phase is θ, and a relative phase is an azimuth around the axis n, so 𝓡 is the rotation by θ about n.
 
-```latex
+```math
 U\,(\vec r\cdot\vec\sigma)\,U^\dagger=(\mathcal R_U\vec r)\cdot\vec\sigma,\qquad U=e^{-i\theta\,\hat n\cdot\vec\sigma/2}\;\Rightarrow\;\mathcal R_U=\text{rotation by }\theta\text{ about }\hat n,\qquad \mathcal R_{-U}=\mathcal R_U
 ```
 
@@ -265,7 +265,7 @@ The last equation is the double cover: U and −U give the same rotation, which 
 
 Any U in SU(2) factors as a Z rotation, a rotation about a transverse axis, and another Z rotation (ZYZ or ZXZ Euler angles). Geometric reason: the first RZ spins the sphere about z, the middle rotation tilts the z-axis to any polar angle, and the last RZ chooses the final azimuth. With only virtual RZ and the fixed SX, the middle rotation must be produced by two SX pulses. We now prove the identity that does this for RX(θ).
 
-```latex
+```math
 \begin{aligned}
 \mathrm{SX}\,R_Z(\phi)\,\mathrm{SX}^\dagger&\simeq R_X(\tfrac\pi2)\,R_Z(\phi)\,R_X(-\tfrac\pi2)=R_Y(-\phi)&&\text{($R_X(\pi/2)$ sends }\hat z\to-\hat y)\\
 \mathrm{SX}\,R_Z(\phi)\,\mathrm{SX}&\simeq R_Y(-\phi)\,X&&(\mathrm{SX}^2\simeq X)\\
@@ -276,7 +276,7 @@ R_Z(\tfrac\pi2)\,R_Y(-\theta)\,R_Z(\pi)\,R_Z(\tfrac\pi2)&\simeq R_Z(\tfrac\pi2)\
 
 Collecting the steps gives the ZSX form of RX, which is what the transpiler emits on a backend without fractional gates:
 
-```latex
+```math
 R_X(\theta)\;\simeq\;R_Z(\tfrac\pi2)\;\mathrm{SX}\;R_Z(\theta+\pi)\;\mathrm{SX}\;R_Z(\tfrac\pi2)\qquad(\text{matrix product; rightmost acts first})
 ```
 
@@ -305,7 +305,7 @@ Single-qubit gates are cheap (virtual RZ or one pulse), so what matters about a 
 
 The Lie algebra su(4) has dimension 15. It splits into the local generators (X, Y, Z on either qubit alone: 6 dimensions) and the 9 two-body generators σ\_i⊗σ\_j. The largest set of mutually commuting two-body generators is {XX, YY, ZZ}: for example XX·YY = (XY)⊗(XY) = (iZ)⊗(iZ) = −ZZ and YY·XX = (YX)⊗(YX) = (−iZ)⊗(−iZ) = −ZZ, so they commute. Cartan's theorem then says every gate factors as local gates, a commuting exponential, and local gates:
 
-```latex
+```math
 U=(A_1\otimes B_1)\;\exp\!\big[i\,(c_1\,XX+c_2\,YY+c_3\,ZZ)\big]\;(A_2\otimes B_2),\qquad A_k,B_k\in SU(2),\qquad 15=6+3+6
 ```
 
@@ -315,7 +315,7 @@ The count confirms it: six parameters for the left local layer, three canonical 
 
 Local Clifford gates permute the three axes (for example H⊗H swaps ZZ with XX) and flip signs of pairs of coefficients, and a shift of any coefficient by π/2 is itself a local gate, because exp(i(π/2)·ZZ) = i·Z⊗Z. Using these symmetries every gate can be moved into a fundamental region, the Weyl chamber, a tetrahedron:
 
-```latex
+```math
 \frac{\pi}{4}\;\ge\;c_1\;\ge\;c_2\;\ge\;|c_3|
 ```
 
@@ -333,11 +333,11 @@ The gate counts are standard KAK results (Zhang, Vala, Sastry and Whaley 2003; V
 
 RZZ(θ) = exp(−i(θ/2)·ZZ) has only one nonzero coefficient. Two symmetries bring any θ into the chamber edge:
 
-```latex
+```math
 c\to -c:\;\;X_a\,e^{-ic\,ZZ}\,X_a=e^{+ic\,ZZ},\qquad c\to c+\tfrac\pi2:\;\;e^{i\frac\pi2 ZZ}=i\,Z\otimes Z\;\text{(a local gate)}
 ```
 
-```latex
+```math
 R_{ZZ}(\theta)=e^{-i\frac\theta2 ZZ}\;\sim\;e^{i\frac\theta2 XX}\;\Rightarrow\;(c_1,c_2,c_3)=(\tfrac\theta2,0,0),\qquad 0\le\theta\le\tfrac\pi2\;\Longleftrightarrow\;0\le c_1\le\tfrac\pi4
 ```
 
@@ -347,7 +347,7 @@ So the whole family RZZ(θ), θ in \[0, π/2\], is the edge of the Weyl chamber 
 
 For bits a, b let z = 1 − 2·bit. The CZ phase (−1)^(ab) equals exp\[iπ(1 − z\_a)(1 − z\_b)/4\], so expanding the product gives CZ as an exponential of Z-type terms:
 
-```latex
+```math
 \mathrm{CZ}=e^{\,i\frac\pi4\,(I-Z_a-Z_b+Z_aZ_b)}\;\simeq\;R_{ZZ}\!\left(-\tfrac\pi2\right)\big(R_Z(\tfrac\pi2)\otimes R_Z(\tfrac\pi2)\big)
 ```
 
@@ -361,7 +361,7 @@ With only CZ native, RZZ(θ) costs two CZ gates plus single-qubit gates; with th
 
 Conjugating Z on the target by a CNOT turns it into a parity operator: CX·(I⊗Z)·CX = Z⊗Z. By the conjugation rule of section 3.5 this carries over to the rotation. Writing CX = H\_b·CZ·H\_b and using H·RZ·H = RX gives the standard two-CZ form:
 
-```latex
+```math
 R_{ZZ}(\theta)=\mathrm{CX}\,\big(I\otimes R_Z(\theta)\big)\,\mathrm{CX}=H_b\;\mathrm{CZ}\;R_{X,b}(\theta)\;\mathrm{CZ}\;H_b
 ```
 
@@ -373,7 +373,7 @@ I confirmed the identity numerically for random θ. Section 5.3 explains why two
 
 Write ZZ for Z⊗Z. All three follow from the facts of section 3.
 
-```latex
+```math
 \text{(i)}\;\;R_{ZZ}(\theta+2\pi)=-R_{ZZ}(\theta)\qquad\text{(ii)}\;\;R_{ZZ}(\theta+\pi)=R_{ZZ}(\theta)\,(-i\,ZZ)\qquad\text{(iii)}\;\;X_a\,R_{ZZ}(\theta)\,X_a=R_{ZZ}(-\theta)
 ```
 
@@ -385,7 +385,7 @@ Write ZZ for Z⊗Z. All three follow from the facts of section 3.
 
 Given any real θ, let n be the nearest integer to θ/π and φ = θ − nπ, so φ lies in \[−π/2, π/2\]. Identity (ii) applied n times gives RZZ(θ) = RZZ(φ)·(−i·ZZ)^n, and identity (iii) removes a negative sign of φ:
 
-```latex
+```math
 R_{ZZ}(\theta)=\big[X_a\big]^{s}\,R_{ZZ}(|\varphi|)\,\big[X_a\big]^{s}\,(-i\,ZZ)^{n},\qquad s=\begin{cases}1&\varphi<0\\0&\varphi\ge0\end{cases},\qquad \theta'=|\varphi|=\Big|\big((\theta+\tfrac\pi2)\bmod\pi\big)-\tfrac\pi2\Big|\in[0,\tfrac\pi2]
 ```
 
@@ -425,7 +425,7 @@ The docs state that error rates for fractional gates are not yet reported separa
 
 Two first-order facts explain why fewer gates help. If errors are small and independent, circuit fidelity is the product of per-operation fidelities, F ≈ Π(1 − ε\_i) ≈ exp(−Σ ε\_i), so removing half the two-qubit gates halves the two-qubit term in the exponent. And idle relaxation grows with duration. The standard average-fidelity result for a qubit idling for time t (amplitude damping plus dephasing; cited from memory) is:
 
-```latex
+```math
 \bar F_{\text{idle}}(t)=\tfrac12+\tfrac16\,e^{-t/T_1}+\tfrac13\,e^{-t/T_2}\;\approx\;1-t\Big(\frac{1}{6T_1}+\frac{1}{3T_2}\Big)\quad(t\ll T_{1,2})
 ```
 
@@ -469,7 +469,7 @@ The tutorial's kernel circuit is a block of RZ and RZZ rotations with all angles
 
 The feature map U(x) turns a data vector x into the state |Φ(x)⟩ = U(x)|0…0⟩. The kernel entry is the squared overlap of two such states, and it is estimated by running the mirrored circuit U(y)†·U(x) and counting how often the all-zero string comes out.
 
-```latex
+```math
 K(\mathbf x,\mathbf y)=\big|\langle\Phi(\mathbf y)|\Phi(\mathbf x)\rangle\big|^2=\big|\langle 0^n|U(\mathbf y)^\dagger U(\mathbf x)|0^n\rangle\big|^2=P(0^n),\qquad K=\cos^2 d_{FS},\quad d_{FS}=\arccos\big|\langle\Phi(\mathbf x)|\Phi(\mathbf y)\rangle\big|
 ```
 
@@ -481,7 +481,7 @@ For identical inputs the mirrored circuit is the identity, so K(x,x) = 1 ideally
 
 The tutorial builds its own map because Qiskit's built-in zz\_feature\_map did not support RZZ gates at Qiskit 2.4.1 (issue 14469). The structure, for n qubits and r repetitions, is: a Hadamard on every qubit once, then r layers, each an RZ(x\_i) on every qubit followed by RZZ gates on nearest-neighbour pairs (even pairs first, then odd pairs). The parameter vector x has n·r entries and each layer uses its own block of n.
 
-```latex
+```math
 U(\mathbf x)=L_r\cdots L_1\,H^{\otimes n},\qquad L_k=\Big[\prod_{(i,i+1)}R_{ZZ}\big(\theta^{(k)}_{i,i+1}\big)\Big]\Big[\bigotimes_i R_Z\big(x^{(k)}_i\big)\Big],\qquad \theta^{(k)}_{ij}=\big(\pi-x^{(k)}_i\big)\big(\pi-x^{(k)}_j\big)
 ```
 
@@ -489,11 +489,11 @@ U(\mathbf x)=L_r\cdots L_1\,H^{\otimes n},\qquad L_k=\Big[\prod_{(i,i+1)}R_{ZZ}\
 
 **A closed form.** After the single layer of Hadamards, every later gate (RZ and RZZ) is diagonal in the computational basis, so all of them commute and only add phases. With z\_i = (−1)^(s\_i):
 
-```latex
+```math
 U(\mathbf x)|0^n\rangle=2^{-n/2}\sum_{s\in\{0,1\}^n}e^{-\frac i2\Phi(s;\mathbf x)}\,|s\rangle,\qquad \Phi(s;\mathbf x)=\sum_{k=1}^{r}\Big[\sum_i x^{(k)}_i z_i+\sum_{(i,j)}\theta^{(k)}_{ij}\,z_iz_j\Big]
 ```
 
-```latex
+```math
 K(\mathbf x,\mathbf y)=\Big|\,2^{-n}\sum_{s}e^{-\frac i2\left[\Phi(s;\mathbf x)-\Phi(s;\mathbf y)\right]}\Big|^2
 ```
 
@@ -503,7 +503,7 @@ I checked both formulas numerically for n = 4, r = 3 (state and kernel agree to 
 
 The tutorial draws each feature from rng.random, so x lies in \[0, 1). Then π − x lies in (π − 1, π\], and the product of two such factors lies in an interval entirely above the hardware window:
 
-```latex
+```math
 \theta_{ij}=(\pi-x_i)(\pi-x_j)\in\big((\pi-1)^2,\;\pi^2\big)\approx(4.586,\;9.870),\qquad \tfrac\pi2\approx1.571
 ```
 
@@ -657,7 +657,7 @@ The workflow changes in section 8.5 exist only because of the RZZ angle window. 
 
 Qiskit's U(θ, φ, λ) equals RZ(φ)·RY(θ)·RZ(λ) up to phase. Conjugating RX by a quarter turn about z sends the x-axis to the y-axis (section 4.4), so RY is an RX in disguise, and the Z rotations merge:
 
-```latex
+```math
 R_Y(\theta)=R_Z(\tfrac\pi2)\,R_X(\theta)\,R_Z(-\tfrac\pi2)\;\Rightarrow\;U(\theta,\varphi,\lambda)\simeq R_Z\!\big(\varphi+\tfrac\pi2\big)\;R_X(\theta)\;R_Z\!\big(\lambda-\tfrac\pi2\big)
 ```
 
